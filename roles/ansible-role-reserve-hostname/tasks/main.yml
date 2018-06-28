@@ -14,6 +14,9 @@
   register: inventory_hostname
   ignore_errors: yes
 
+- name: "Generated Hostname"
+  debug: var=inventory_hostname.json
+
 - name: "Persisting Hostname"
   set_stats:
     data:
