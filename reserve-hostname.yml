@@ -1,0 +1,7 @@
+- name: Nebula Cloud | Reserve Hostname
+  hosts: all
+  gather_facts: false
+  connection: local
+  
+  roles:
+    - ansible-role-reserve-hostname
