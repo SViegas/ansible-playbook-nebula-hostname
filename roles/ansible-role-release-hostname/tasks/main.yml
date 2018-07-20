@@ -19,6 +19,11 @@
   set_fact:
     vm_name: "{{ vm_info.json.name }}"
 
+- name: "Setting Virtual Machine Name"
+  set_stats:
+    data:
+      vm_name: "{{ vm_info.json.name }}"
+
 - name: "Fact Result: Setting Virtual Machine Name"
   debug: var=vm_name
 
