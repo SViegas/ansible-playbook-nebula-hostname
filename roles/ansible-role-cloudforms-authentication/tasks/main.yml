@@ -12,6 +12,5 @@
   register: rhcf_auth
 
 - name: Setting Authentication Token
-  set_stats:
-    data:
-      rhcf_auth_token: "{{ rhcf_auth.json.auth_token }}"
+  set_fact:
+    rhcf_auth_token: "{{ rhcf_auth.json.auth_token }}"
