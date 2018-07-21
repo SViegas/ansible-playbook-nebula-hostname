@@ -3,26 +3,30 @@
 
 - name: "Getting Virtual Machine Info"
   uri:
-    url: "https://{{ rhcf_host }}/api/services/{{ service_id }}"
+    url: https://{{ rhcf_host }}/api/services/{{ service_id }}?expand=resources&attributes=vms
     method: GET
+    user: "{{ rhcf_username }}"
+    password: "{{ rhcf_password }}"
+    return_content: yes
     validate_certs: False
     headers:
-      X-Auth-Token: "{{ rhcf_auth_token }}"
       Content-Type: "application/json"
-    status_code: 200
-  register: vm_info
+    status_code: 200, 201
+  register: workflow_result
 
 - name: "Task Result: Getting Virtual Machine Info"
   debug: var=vm_info
 
-- name: "Setting Virtual Machine Name For ROle"
-  set_fact:
-    vm_name: "{{ vm_info.json.name }}"
-
 - name: "Setting Virtual Machine Name For Workflow"
-  set_stats:
-    data:
-      vm_name: "{{ vm_info.json.name }}"
+  set_stats: 
+    data: 
+      vm_name: "{{ item.name }}"
+  with_items: "{{ workflow_result.json.vms }}"
+
+- name: "Setting Virtual Machine Name For Role"
+  set_fact:
+    vm_name: "{{ item.name }}"
+  with_items: "{{ workflow_result.json.vms }}"
 
 - name: "Fact Result: Setting Virtual Machine Name"
   debug: var=vm_name
