@@ -3,11 +3,13 @@
 
 - name: "Delete hostname from the backend"
   uri:
-    url: http://{{ hostname_svc_addr }}:{{ hostname_svc_port }}/hostname/delete/{{ vm_name }}
+    url: http://{{ hostname_svc_addr }}:{{ hostname_svc_port }}/hostname/delete/{{ item.name }}
     method: DELETE
     status_code: 200
   register: delete_inventory_hostname
   ignore_errors: yes
+  with_items: "{{ service_vms }}"
 
 - debug:
-    msg: "{{ delete_inventory_hostname }}"
+    msg: "{{ item.name }} deleted."
+  with_items: "{{ service_vms }}"
