@@ -1,0 +1,17 @@
+---
+# tasks file for ansible-role-cloudforms-authentication
+
+- name: Authenticating with Red Hat CloudForms
+  uri:
+    url: "https://{{ rhcf_host }}/api/auth"
+    user: "{{ rhcf_username }}"
+    password: "{{ rhcf_password }}"
+    method: GET
+    validate_certs: False
+    status_code: 200
+  register: rhcf_auth
+
+- name: Setting Authentication Token
+  set_stats:
+    data:
+      rhcf_auth_token: "{{ rhcf_auth.json.auth_token }}"
