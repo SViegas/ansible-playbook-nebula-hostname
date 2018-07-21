@@ -22,17 +22,17 @@
     data: 
       vm_name: "{{ item.name }}"
   with_items: "{{ vm_info.json.vms }}"
-  when: vm_info.json.vms|length = 1
+  when: vm_info.json.vms|length == "1"
 
 - name: "Setting Virtual Machine Name For Role"
   set_fact:
     vm_name: "{{ item.name }}"
   with_items: "{{ vm_info.json.vms }}"
-  when: vm_info.json.vms|length = 1
+  when: vm_info.json.vms|length == "1"
 
 - name: "Fact Result: Setting Virtual Machine Name For Playbook"
   debug: var=vm_name
-  when: vm_info.json.vms|length = 1
+  when: vm_info.json.vms|length == "1"
 
 - name: "Setting Service Virtual Machines For Workflow"
   set_stats: 
