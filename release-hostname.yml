@@ -5,4 +5,5 @@
   
   roles:
     - ansible-role-cloudforms-authentication
+    - ansible-role-cloudforms-get-vmname
     - ansible-role-release-hostname
