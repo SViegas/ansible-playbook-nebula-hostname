@@ -20,4 +20,4 @@
 - name: Show Workflow Result
   debug: 
     msg: item.name
-  with_items: {{ workflow_result.json.vms }}
+  with_items: "{{ workflow_result.json.vms }}"
