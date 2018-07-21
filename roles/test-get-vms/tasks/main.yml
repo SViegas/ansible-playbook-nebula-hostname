@@ -16,3 +16,8 @@
 
 - name: Show Workflow Result
   debug: var=workflow_result
+
+- name: Show Workflow Result
+  debug: 
+    msg: {{ item.name }}
+  with_items: {{ workflow_result.json.vms }}
