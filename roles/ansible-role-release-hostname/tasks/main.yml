@@ -1,32 +1,6 @@
 ---
 # tasks file for ansible-role-release-hostname/
 
-- name: "Getting Virtual Machine Info"
-  uri:
-    url: "https://{{ rhcf_host }}/api/services/{{ service_id }}"
-    method: GET
-    validate_certs: False
-    headers:
-      X-Auth-Token: "{{ rhcf_auth_token }}"
-      Content-Type: "application/json"
-    status_code: 200
-  register: vm_info
-
-- name: "Task Result: Getting Virtual Machine Info"
-  debug: var=vm_info
-
-- name: "Setting Virtual Machine Name"
-  set_fact:
-    vm_name: "{{ vm_info.json.name }}"
-
-- name: "Setting Virtual Machine Name"
-  set_stats:
-    data:
-      vm_name: "{{ vm_info.json.name }}"
-
-- name: "Fact Result: Setting Virtual Machine Name"
-  debug: var=vm_name
-
 - name: "Delete hostname from the backend"
   uri:
     url: http://{{ hostname_svc_addr }}:{{ hostname_svc_port }}/hostname/delete/{{ vm_name }}
