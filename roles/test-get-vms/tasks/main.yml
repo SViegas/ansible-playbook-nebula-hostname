@@ -23,5 +23,4 @@
   with_items: "{{ workflow_result.json.vms }}"
 
 - name: Show Workflow Result
-  debug:
-    msg: "{{ workflow_result.json.vms|length }}"
+  debug: var=workflow_result.json.vms|length
