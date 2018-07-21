@@ -1,0 +1,18 @@
+---
+# tasks file for test-get-vms
+
+- name: "Get Service VMs"
+  uri:
+    url: https://{{ rhcf_host }}/api/services/{{ service_id }}?expand=resources&attributes=vms
+    method: GET
+    user: "{{ rhcf_username }}"
+    password: "{{ rhcf_password }}"
+    return_content: yes
+    validate_certs: False
+    headers:
+      Content-Type: "application/json"
+    status_code: 200, 201
+  register: workflow_result
+
+- name: Show Workflow Result
+  debug: var=workflow_result
