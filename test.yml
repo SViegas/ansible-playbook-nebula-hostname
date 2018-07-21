@@ -1,0 +1,7 @@
+- name: Nebula Cloud
+  hosts: all
+  gather_facts: false
+  connection: local
+  
+  roles:
+    - test-get-vms
