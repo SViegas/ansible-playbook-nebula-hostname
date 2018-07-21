@@ -1,7 +1,7 @@
 ---
 # tasks file for test-get-vms
 
-- name: "Get Service VMs"
+- name: "Getting Virtual Machine Info"
   uri:
     url: https://{{ rhcf_host }}/api/services/{{ service_id }}?expand=resources&attributes=vms
     method: GET
@@ -12,15 +12,39 @@
     headers:
       Content-Type: "application/json"
     status_code: 200, 201
-  register: workflow_result
+  register: vm_info
 
-- name: Show Workflow Result
-  debug: var=workflow_result
+- name: "Task Result: Getting Virtual Machine Info"
+  debug: var=vm_info
 
-- name: Show Workflow Result
-  debug: 
-    msg: "{{ item.name }}"
-  with_items: "{{ workflow_result.json.vms }}"
+- name: "Setting Virtual Machine Name For Workflow"
+  set_stats: 
+    data: 
+      vm_name: "{{ item.name }}"
+  with_items: "{{ vm_info.json.vms }}"
+  when: vm_info.json.vms|length = 1
 
-- name: Show Workflow Result
-  debug: var=workflow_result.json.vms|length
+- name: "Setting Virtual Machine Name For Role"
+  set_fact:
+    vm_name: "{{ item.name }}"
+  with_items: "{{ vm_info.json.vms }}"
+  when: vm_info.json.vms|length = 1
+
+- name: "Fact Result: Setting Virtual Machine Name For Playbook"
+  debug: var=vm_name
+  when: vm_info.json.vms|length = 1
+
+- name: "Setting Service Virtual Machines For Workflow"
+  set_stats: 
+    data: 
+      service_vms: "{{ vm_info.json.vms }}"
+  when: vm_info.json.vms|length > 1
+
+- name: "Setting Service Virtual Machine For Playbook"
+  set_fact:
+    service_vms: "{{ vm_info.json.vms }}"
+  when: vm_info.json.vms|length > 1
+
+- name: "Fact Result: Setting Service Virtual Machine For Playbook"
+  debug: var=service_vms
+  when: vm_info.json.vms|length > 1
