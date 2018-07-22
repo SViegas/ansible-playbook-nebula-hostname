@@ -1,30 +1,7 @@
 ---
 # tasks file for test-get-vms
 
-- name: "Getting Virtual Machine Info"
-  uri:
-    url: https://{{ rhcf_host }}/api/services/{{ service_id }}?expand=resources&attributes=vms
-    method: GET
-    user: "{{ rhcf_username }}"
-    password: "{{ rhcf_password }}"
-    return_content: yes
-    validate_certs: False
-    headers:
-      Content-Type: "application/json"
-    status_code: 200, 201
-  register: vm_info
-
-- name: "Task Result: Getting Virtual Machine Info"
-  debug: var=vm_info
-
-- name: "Setting Service Virtual Machines For Workflow"
-  set_stats: 
-    data: 
-      service_vms: "{{ vm_info.json.vms }}"
-
-- name: "Setting Service Virtual Machine For Playbook"
-  set_fact:
-    service_vms: "{{ vm_info.json.vms }}"
-
-- name: "Fact Result: Setting Service Virtual Machine For Playbook"
-  debug: var=service_vms
+- name: "test loop"
+  debug:
+    msg: "Loop count: {{ item }}"
+  with_sequence: start=0 end=loop_count
