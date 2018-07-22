@@ -4,4 +4,4 @@
 - name: "test loop"
   debug:
     msg: "Loop count: {{ item }}"
-  with_sequence: start=0 end=loop_count
+  with_sequence: start=0 end="{{ loop_count }}"
