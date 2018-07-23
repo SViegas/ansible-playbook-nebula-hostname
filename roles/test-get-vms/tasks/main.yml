@@ -31,7 +31,7 @@
 
 - name: "Get VM IP addresses"
   uri:
-    url: "{{ item.href }}?attributes=name,ipaddresses"
+    url: "https://{{ rhcf_host }}/api/services/{{ service_id }}?expand=resources&attributes=vms"
     method: GET
     user: "{{ rhcf_username }}"
     password: "{{ rhcf_password }}"
@@ -44,4 +44,4 @@
   with_items: "{{ service_vms }}"
 
 - name: "Fact Result: Setting Service Virtual Machine For Playbook"
-  debug: var=service_vms
+  debug: var=test
