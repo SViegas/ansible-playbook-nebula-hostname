@@ -1,0 +1,7 @@
+- name: Nebula Cloud | Release Hostname
+  hosts: all
+  gather_facts: false
+  connection: local
+  
+  roles:
+    - ansible-role-release-hostname
