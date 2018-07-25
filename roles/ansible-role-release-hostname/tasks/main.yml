@@ -1,13 +1,18 @@
 ---
 # tasks file for ansible-role-release-hostname/
 
+- name: "Define vm_name"
+  set_fact:
+    vm_name: "{{ vm.name }}"
+  when: vm is defined
+
 - name: "Delete hostname from the backend"
   uri:
-    url: http://{{ hostname_svc_addr }}:{{ hostname_svc_port }}/hostname/delete/{{ vm.name }}
+    url: http://{{ hostname_svc_addr }}:{{ hostname_svc_port }}/hostname/delete/{{ vm_name }}
     method: DELETE
     status_code: 200
   register: delete_inventory_hostname
   ignore_errors: yes
 
 - debug:
-    msg: "{{ vm.name }} deleted."
+    msg: "{{ vm_name }} deleted."
