@@ -3,7 +3,19 @@
   gather_facts: false
   connection: local
   
-  roles:
-    - ansible-role-cloudforms-authentication
-    - ansible-role-cloudforms-get-vmname
-    - ansible-role-release-hostname
+  tasks:
+    - name: "Get auth token"
+      include_role: 
+        name: ansible-role-cloudforms-authentication
+    
+    - name: "Get All Virtual Machines Connected To A Service"
+      include_role: 
+        name: ansible-role-cloudforms-get-vmname
+
+    - name: "Release Hostname From Backend"
+      include_role: 
+        name: ansible-role-release-hostname
+      with_items:
+        - "{{ service_vms }}"
+      loop_control:
+        loop_var: vm
